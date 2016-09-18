@@ -101,52 +101,36 @@ task apiJar(type: Jar, dependsOn: 'sourceMainJava') {
     classifier 'api'
 }
 
-/*task fixResources(type: Copy){
-    from 'src/main/resources'
-    into 'build/fixedResources'
-    filter(ReplaceTokens, tokens: ['VERSION':project.version, 'GROUP':project.group, 'MCVERSION':project.minecraft.version])
-}
-*/
 task sourcesForRelease(type: Copy){
     from 'src/main/java'
     into 'build/ajustedSrc'
     filter(ReplaceTokens, tokens: ['VERSION':project.version, 'GROUP':project.group, 'MCVERSION':project.minecraft.version])
 }
 
-task compileForRelease(type: JavaCompile, dependsOn: sourcesForRelease){
+task classes(type: JavaCompile, dependsOn: sourcesForRelease, overwrite: true){
     source = sourcesForRelease.destinationDir
     classpath = sourceSets.main.compileClasspath
     destinationDir = file('build/adjustedClasses')
 }
-/*
-task copyData(type: Copy, dependsOn: compileForRelease){
-    from 'build/adjustedClasses/'
 
-    into 'build/target'
-}
-
-task copyMcModInfo(type: ProcessResources, dependsOn: copyData){
-    def srcDirs = 'build/fixedResources'
-    def destinationDir = file('build/target')
-}
-
-task compileAndReplace(type: Jar, dependsOn: copyMcModInfo){
-    baseName = project.name
-}*/
 task replaceWords(type: Copy, dependsOn: processResources){
     from 'build/resources/main'
     into 'build/newResources/main'
     filter(ReplaceTokens, tokens: ['VERSION':project.version, 'GROUP':project.group, 'MCVERSION':project.minecraft.version])
 }
 
-task subReplaceWords(type:Copy, dependsOn:replaceWords){
+task processResources(type:Copy, dependsOn:replaceWords, overwrite: true){
     from 'build/newResources/main'
     into 'build/resources/main'
 }
 
-task jar(type: Jar, dependsOn: [subReplaceWords, compileForRelease], overwrite: true){
+task jar(type: Jar, dependsOn: [processResources, classes], overwrite: true){
     from 'build/resources/main'
     from 'build/adjustedClasses'
+}
+
+task build(type: Task, overwrite: true){
+    dependsOn(jar)
 }
 
 artifacts {
