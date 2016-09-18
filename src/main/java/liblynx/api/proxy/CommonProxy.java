@@ -1,25 +1,37 @@
 package liblynx.api.proxy;
 
+import liblynx.api.ModRegistry;
+import liblynx.api.block.BlockBase;
+import liblynx.api.item.ItemBase;
+import liblynx.api.tile.TileBase;
+import liblynx.api.tile.data.TileDataManager;
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public abstract class CommonProxy {
 
-    public abstract void preInit(FMLPreInitializationEvent e);
+    public void preInit(FMLPreInitializationEvent e){
+        ModRegistry.MOD.REGISTRYNODEGRAPH.commonPreInit();
+    }
 
-    public abstract void init(FMLInitializationEvent e);
+    public void init(FMLInitializationEvent e){
+        ModRegistry.MOD.REGISTRYNODEGRAPH.commmonInit();
+    }
 
-    public abstract void postInit(FMLPostInitializationEvent e);
+    public void postInit(FMLPostInitializationEvent e) { }
 
-/*    private void registerBlock(Block block) {
+    public static void registerBlock(BlockBase block) {
         GameRegistry.register(block);
         GameRegistry.register(block.createItem());
     }
 
-    private void registerTile(Class<? extends TileBase> tile, String id, String modid) {
-        GameRegistry.registerTileEntity(tile, modid + ":" + id);
+    public static void registerTile(Class<? extends TileBase> tile, String id) {
+        GameRegistry.registerTileEntity(tile, ModRegistry.MODID + ":" + id);
 
         try {
             TileBase tileInstance = tile.newInstance();
@@ -30,7 +42,7 @@ public abstract class CommonProxy {
         }
     }
 
-    private void registerItem(Item item) {
+    public static void registerItem(ItemBase item) {
         GameRegistry.register(item);
-    }*/
+    }
 }

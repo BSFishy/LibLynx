@@ -1,3 +1,4 @@
+import org.apache.tools.ant.filters.ReplaceTokens
 
 // For those who want the bleeding edge
 buildscript {
@@ -83,13 +84,12 @@ processResources
     // copy everything else, thats not the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
-		
-		expand 'version':project.version, 'group':project.group
     }
 }
 
 task deobfJar(type: Jar) {
     from sourceSets.main.output
+    expand('version':project.version, 'group':project.group)
     classifier 'deobf'
 }
 
@@ -97,7 +97,56 @@ task apiJar(type: Jar, dependsOn: 'sourceMainJava') {
     from sourceSets.main.allSource
     from sourceSets.main.output
     include 'liblynx/api/**/*'
+    expand('version':project.version, 'group':project.group)
     classifier 'api'
+}
+
+/*task fixResources(type: Copy){
+    from 'src/main/resources'
+    into 'build/fixedResources'
+    filter(ReplaceTokens, tokens: ['VERSION':project.version, 'GROUP':project.group, 'MCVERSION':project.minecraft.version])
+}
+*/
+task sourcesForRelease(type: Copy){
+    from 'src/main/java'
+    into 'build/ajustedSrc'
+    filter(ReplaceTokens, tokens: ['VERSION':project.version, 'GROUP':project.group, 'MCVERSION':project.minecraft.version])
+}
+
+task compileForRelease(type: JavaCompile, dependsOn: sourcesForRelease){
+    source = sourcesForRelease.destinationDir
+    classpath = sourceSets.main.compileClasspath
+    destinationDir = file('build/adjustedClasses')
+}
+/*
+task copyData(type: Copy, dependsOn: compileForRelease){
+    from 'build/adjustedClasses/'
+
+    into 'build/target'
+}
+
+task copyMcModInfo(type: ProcessResources, dependsOn: copyData){
+    def srcDirs = 'build/fixedResources'
+    def destinationDir = file('build/target')
+}
+
+task compileAndReplace(type: Jar, dependsOn: copyMcModInfo){
+    baseName = project.name
+}*/
+task replaceWords(type: Copy, dependsOn: processResources){
+    from 'build/resources/main'
+    into 'build/newResources/main'
+    filter(ReplaceTokens, tokens: ['VERSION':project.version, 'GROUP':project.group, 'MCVERSION':project.minecraft.version])
+}
+
+task subReplaceWords(type:Copy, dependsOn:replaceWords){
+    from 'build/newResources/main'
+    into 'build/resources/main'
+}
+
+task jar(type: Jar, dependsOn: [subReplaceWords, compileForRelease], overwrite: true){
+    from 'build/resources/main'
+    from 'build/adjustedClasses'
 }
 
 artifacts {

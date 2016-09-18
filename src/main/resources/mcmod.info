@@ -1,14 +1,14 @@
 [
 {
-  "modid": "examplemod",
-  "name": "Example Mod",
-  "description": "Example placeholder mod.",
-  "version": "${version}",
-  "mcversion": "${mcversion}",
+  "modid": "@GROUP@",
+  "name": "LibLynx",
+  "description": "A library mod, bringing in a lot of basic functionality for mods",
+  "version": "@VERSION@",
+  "mcversion": "@MCVERSION@",
   "url": "",
   "updateUrl": "",
-  "authorList": ["ExampleDude"],
-  "credits": "The Forge and FML guys, for making this example",
+  "authorList": ["LousyLynx"],
+  "credits": "",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []

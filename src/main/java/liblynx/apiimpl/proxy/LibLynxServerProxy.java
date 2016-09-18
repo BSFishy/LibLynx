@@ -5,7 +5,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
-public class LibLynxServerProxy extends ServerProxy {
+public class LibLynxServerProxy extends LibLynxCommonProxy {
 
     @Override
     public void preInit(FMLPreInitializationEvent e) {
