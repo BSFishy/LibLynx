@@ -23,9 +23,9 @@ import net.minecraftforge.items.IItemHandler;
 public class BlockBase extends Block {
     private static final PropertyDirection DIRECTION = PropertyDirection.create("direction");
 
-    private String name;
+    public String name;
 
-    public BlockBase(String name, String modid) {
+    public BlockBase(String name) {
         super(Material.ROCK);
 
         this.name = name;

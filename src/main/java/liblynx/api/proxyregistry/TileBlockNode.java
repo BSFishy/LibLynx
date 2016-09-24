@@ -20,73 +20,71 @@ public class TileBlockNode implements IRegistryNode {
     private TileBase tile;
     private Map<Integer, ModelResourceLocation> resources = new HashMap<>();
     private List<NodeRecipe> recipes = new ArrayList<>();
-    private String name;
 
     public TileBlockNode() {}
 
-    public TileBlockNode(BlockBase block, TileBase tile, String id){
+    public TileBlockNode(BlockBase block, TileBase tile){
         this.block = block;
         this.tile = tile;
-        this.name = id;
     }
 
-    public TileBlockNode(BlockBase block, TileBase tile, String id, NodeRecipe recipe){
-        this(block, tile, id);
+    public TileBlockNode(BlockBase block, TileBase tile, NodeRecipe recipe){
+        this(block, tile);
         recipes.add(recipe);
     }
 
-    public TileBlockNode(BlockBase block, TileBase tile, String id, List<NodeRecipe> recipes){
-        this(block, tile, id);
+    public TileBlockNode(BlockBase block, TileBase tile, List<NodeRecipe> recipes){
+        this(block, tile);
         recipes.forEach(r -> this.recipes.add(r));
     }
 
-    public TileBlockNode(BlockBase block, TileBase tile, String id, Map<Integer, ModelResourceLocation> resources){
-        this(block, tile, id);
+    public TileBlockNode(BlockBase block, TileBase tile, Map<Integer, ModelResourceLocation> resources){
+        this(block, tile);
         resources.forEach((i, r) -> this.resources.put(i, r));
     }
 
-    public TileBlockNode(BlockBase block, TileBase tile, String id, ResourceLocationWithDamage withDamage){
-        this(block, tile, id);
+    public TileBlockNode(BlockBase block, TileBase tile, ResourceLocationWithDamage withDamage){
+        this(block, tile);
         resources.put(withDamage.getDamage(), withDamage.getResource());
     }
 
-    public TileBlockNode(BlockBase block, TileBase tile, String id, int damage, ModelResourceLocation location){
-        this(block, tile, id);
+    public TileBlockNode(BlockBase block, TileBase tile, int damage, ModelResourceLocation location){
+        this(block, tile);
         resources.put(damage, location);
     }
 
-    public TileBlockNode(BlockBase block, TileBase tile, String id, Map<Integer, ModelResourceLocation> resources, NodeRecipe recipe){
-        this(block, tile, id);
+    public TileBlockNode(BlockBase block, TileBase tile, Map<Integer, ModelResourceLocation> resources, NodeRecipe recipe){
+        this(block, tile);
         resources.forEach((i, r) -> this.resources.put(i, r));
         recipes.add(recipe);
     }
 
-    public TileBlockNode(BlockBase block, TileBase tile, String id, ResourceLocationWithDamage withDamage, NodeRecipe recipe){
-        this(block, tile, id);
+    public TileBlockNode(BlockBase block, TileBase tile, ResourceLocationWithDamage withDamage, NodeRecipe recipe){
+        this(block, tile);
         resources.put(withDamage.getDamage(), withDamage.getResource());
         recipes.add(recipe);
     }
 
-    public TileBlockNode(BlockBase block, TileBase tile, String id, int damage, ModelResourceLocation location, NodeRecipe recipe){
-        this(block, tile, id);
+    public TileBlockNode(BlockBase block, TileBase tile, int damage, ModelResourceLocation location, NodeRecipe recipe){
+        this(block, tile);
         resources.put(damage, location);
         recipes.add(recipe);
     }
 
-    public TileBlockNode(BlockBase block, TileBase tile, String id, Map<Integer, ModelResourceLocation> resources, List<NodeRecipe> recipes){
-        this(block, tile, id);
+    public TileBlockNode(BlockBase block, TileBase tile, Map<Integer, ModelResourceLocation> resources, List<NodeRecipe> recipes){
+        this(block, tile);
         resources.forEach((i, r) -> this.resources.put(i, r));
         recipes.forEach(r -> this.recipes.add(r));
     }
 
-    public TileBlockNode(BlockBase block, TileBase tile, String id, ResourceLocationWithDamage withDamage, List<NodeRecipe> recipes){
-        this(block, tile, id);
+    public TileBlockNode(BlockBase block, TileBase tile, ResourceLocationWithDamage withDamage, List<NodeRecipe> recipes){
+        this(block, tile);
         resources.put(withDamage.getDamage(), withDamage.getResource());
         recipes.forEach(r -> this.recipes.add(r));
     }
 
-    public TileBlockNode(BlockBase block, TileBase tile, String id, int damage, ModelResourceLocation location, List<NodeRecipe> recipes){
-        this(block, tile, id);
+    public TileBlockNode(BlockBase block, TileBase tile, int damage, ModelResourceLocation location, List<NodeRecipe> recipes){
+        this(block, tile);
         resources.put(damage, location);
         recipes.forEach(r -> this.recipes.add(r));
     }
@@ -147,8 +145,8 @@ public class TileBlockNode implements IRegistryNode {
 
     @Override
     public void commonPreInit(){
-        if(tile != null && name != null)
-            CommonProxy.registerTile(tile.getClass(), name);
+        if(tile != null && block != null)
+            CommonProxy.registerTile(tile.getClass(), block.getUnlocalizedName());
         if(block != null)
             CommonProxy.registerBlock(block);
         if(recipes != null)
