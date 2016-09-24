@@ -20,8 +20,8 @@ public class RegistryNodeGraph {
         blocks.add(block);
     }
 
-    public void addBlock(BlockBase block, TileBase tile, String id, int damage, ModelResourceLocation location, NodeRecipe recipe){
-        blocks.add(new TileBlockNode(block, tile, id, damage, location, recipe));
+    public void addBlock(BlockBase block, TileBase tile, int damage, ModelResourceLocation location, NodeRecipe recipe){
+        blocks.add(new TileBlockNode(block, tile, damage, location, recipe));
     }
 
     public void addItem(ItemNode item){
