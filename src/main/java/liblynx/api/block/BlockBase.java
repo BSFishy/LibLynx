@@ -67,7 +67,7 @@ public class BlockBase extends Block {
     @Override
     @SuppressWarnings("deprecation")
     public IBlockState getActualState(IBlockState state, IBlockAccess world, BlockPos pos) {
-        if (getPlacementType() != null && ((TileBase) world.getTileEntity(pos)).getDirection() != null) {
+        if (getPlacementType() != null && world.getTileEntity(pos) != null && ((TileBase) world.getTileEntity(pos)).getDirection() != null) {
             return state.withProperty(DIRECTION, ((TileBase) world.getTileEntity(pos)).getDirection());
         }
 
