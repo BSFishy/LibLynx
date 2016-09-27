@@ -1,5 +1,6 @@
 package liblynx.api.proxyregistry;
 
+import liblynx.api.item.CraftingItemBase;
 import liblynx.api.item.ItemBase;
 import liblynx.api.proxy.CommonProxy;
 import net.minecraft.client.renderer.block.model.ModelBakery;
@@ -128,10 +129,12 @@ public class ItemNode implements IRegistryNode {
 
     @Override
     public void clientPreInit() {
-        if(resources.size() > 1){
-            resources.forEach((d, r) -> ModelBakery.registerItemVariants(item, r));
+        if(!resources.isEmpty()) {
+            if (resources.size() > 1) {
+                resources.forEach((d, r) -> ModelBakery.registerItemVariants(item, r));
+            }
+            resources.forEach((d, r) -> ModelLoader.setCustomModelResourceLocation(item, d, r));
         }
-        resources.forEach((d, r) -> ModelLoader.setCustomModelResourceLocation(item, d, r));
     }
 
     @Override
@@ -140,6 +143,8 @@ public class ItemNode implements IRegistryNode {
             CommonProxy.registerItem(item);
         if(recipes != null)
             recipes.forEach(GameRegistry::addRecipe);
+        else if (item instanceof CraftingItemBase)
+            GameRegistry.addRecipe(((CraftingItemBase) item).getRecipe());
     }
 
     @Override
