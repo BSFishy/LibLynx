@@ -4,6 +4,7 @@ import liblynx.api.ModRegistry;
 import liblynx.api.item.ItemBlockBase;
 import liblynx.api.tile.TileBase;
 import net.minecraft.block.Block;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
@@ -20,7 +21,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.items.IItemHandler;
 
-public abstract class BlockBase extends Block {
+public abstract class BlockBase extends Block implements ITileEntityProvider {
     private static final PropertyDirection DIRECTION = PropertyDirection.create("direction");
 
     public String name;
@@ -36,6 +37,7 @@ public abstract class BlockBase extends Block {
     }
 
     public abstract TileEntity createTileEntity(World world, IBlockState state);
+    public abstract TileEntity createNewTileEntity(World world, int dontKnow);
 
     @Override
     public String getUnlocalizedName(){
