@@ -7,8 +7,6 @@ public abstract class Register<T> {
 
     private List<T> items = new ArrayList<>();
 
-    private Register() {}
-
     public void addItem(T item){
         items.add(item);
     }
