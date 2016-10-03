@@ -20,4 +20,6 @@ public abstract class Register<T> {
     public List<T> getItems(){
         return items;
     }
+
+    public void addDefaults(){ }
 }
