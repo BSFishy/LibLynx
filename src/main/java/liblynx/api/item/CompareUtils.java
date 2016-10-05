@@ -56,21 +56,23 @@ public final class CompareUtils {
             return false;
         }
 
-        if ((flags & COMPARE_DAMAGE) == COMPARE_DAMAGE) {
-            if (left.getItemDamage() != right.getItemDamage()) {
-                return false;
+        if(flags > 0) {
+            if ((flags & COMPARE_DAMAGE) == COMPARE_DAMAGE) {
+                if (left.getItemDamage() != right.getItemDamage()) {
+                    return false;
+                }
             }
-        }
 
-        if ((flags & COMPARE_NBT) == COMPARE_NBT) {
-            if (!compareNbt(left, right)) {
-                return false;
+            if ((flags & COMPARE_NBT) == COMPARE_NBT) {
+                if (!compareNbt(left, right)) {
+                    return false;
+                }
             }
-        }
 
-        if ((flags & COMPARE_QUANTITY) == COMPARE_QUANTITY) {
-            if (left.stackSize != right.stackSize) {
-                return false;
+            if ((flags & COMPARE_QUANTITY) == COMPARE_QUANTITY) {
+                if (left.stackSize != right.stackSize) {
+                    return false;
+                }
             }
         }
 
